@@ -1,20 +1,45 @@
-// chess_cpp.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include "Piece.h"
+#include "Pawn.h"
+#include "Knight.h"
+#include "Bishop.h"
+#include "Rook.h"
+#include "Queen.h"
+#include "King.h"
 
-int main()
+Piece** setUpPiecesByColor(const std::string& color)
 {
-    std::cout << "Hello World!\n";
+    Piece** pieces = new Piece * [16];
+    int id = 0;
+    for (int i = 0; i < 8; i++) {
+        pieces[i] = new Pawn(id++, color);
+    }
+
+    pieces[8] = new Knight(id++, color);
+    pieces[9] = new Knight(id++, color);
+    pieces[10] = new Bishop(id++, color);
+    pieces[11] = new Bishop(id++, color);
+    pieces[12] = new Rook(id++, color);
+    pieces[13] = new Rook(id++, color);
+    pieces[14] = new Queen(id++, color);
+    pieces[15] = new King(id++, color);
+    
+    return pieces;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+int main() {
+    std::cout << "Setting up black and white pieces..." << std::endl;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+    Piece** whitePieces = setUpPiecesByColor("white");
+    Piece** blackPieces = setUpPiecesByColor("black");
+
+    for (int i = 0; i < 16; i++) {
+        delete whitePieces[i];
+        delete blackPieces[i];
+
+    }
+    delete[] whitePieces;
+    delete[] blackPieces;
+
+    return 0;
+}
